@@ -1,0 +1,18 @@
+# Применяется автоматически поверх docker-compose.yml при локальной разработке.
+# В продакшне используется только docker-compose.yml
+# Добавить в .gitignore если не хочешь коммитить dev настройки.
+
+services:
+  api:
+    environment:
+      APP_ENV: development
+      LOG_LEVEL: DEBUG
+    volumes:
+      - ./app:/app/app
+      - ./scripts:/app/scripts
+      - ./alembic:/app/alembic
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+
+  vllm_embedder:
+    environment:
+      CUDA_VISIBLE_DEVICES: ""

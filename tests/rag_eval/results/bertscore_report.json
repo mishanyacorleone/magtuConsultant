@@ -1,0 +1,46 @@
+{
+  "model": "/mnt/mishutqa/PycharmProjects/abitBot/app/models/deepvk/USER-bge-m3",
+  "device": "cpu",
+  "overall": {
+    "count": 27,
+    "vs_context": {
+      "precision": 0.6549,
+      "recall": 0.6549,
+      "f1": 0.6549
+    },
+    "vs_gt": {
+      "precision": 0.7359,
+      "recall": 0.7359,
+      "f1": 0.7359
+    }
+  },
+  "by_category": {
+    "SQL": {
+      "count": 18,
+      "vs_context": {
+        "precision": 0.6134,
+        "recall": 0.6134,
+        "f1": 0.6134
+      },
+      "vs_gt": {
+        "precision": 0.7513,
+        "recall": 0.7513,
+        "f1": 0.7513
+      }
+    },
+    "Vector": {
+      "count": 9,
+      "vs_context": {
+        "precision": 0.7379,
+        "recall": 0.7379,
+        "f1": 0.7379
+      },
+      "vs_gt": {
+        "precision": 0.7049,
+        "recall": 0.7049,
+        "f1": 0.7049
+      }
+    }
+  },
+  "per_sample": []
+}

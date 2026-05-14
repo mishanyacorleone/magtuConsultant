@@ -1,0 +1,35 @@
+=== BERTScore Evaluation Summary ===
+
+Модель: /mnt/mishutqa/PycharmProjects/abitBot/app/models/deepvk/USER-bge-m3
+Устройство: cpu
+
+--- ОБЩИЕ МЕТРИКИ ---
+  Вопросов: 27
+  vs_context:
+    precision    0.6549
+    recall       0.6549
+    f1           0.6549
+  vs_gt:
+    precision    0.7359
+    recall       0.7359
+    f1           0.7359
+
+--- Категория: SQL (18 вопросов) ---
+  vs_context:
+    precision    0.6134
+    recall       0.6134
+    f1           0.6134
+  vs_gt:
+    precision    0.7513
+    recall       0.7513
+    f1           0.7513
+
+--- Категория: Vector (9 вопросов) ---
+  vs_context:
+    precision    0.7379
+    recall       0.7379
+    f1           0.7379
+  vs_gt:
+    precision    0.7049
+    recall       0.7049
+    f1           0.7049

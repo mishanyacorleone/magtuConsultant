@@ -1,0 +1,54 @@
+=== RAGChecker Evaluation Summary ===
+
+--- ОБЩИЕ МЕТРИКИ ---
+  Вопросов: 37
+  context_utilization                 0.4676
+  hallucination                       0.2708
+  self_knowledge                      0.1264
+  faithfulness                        0.5218
+  precision                           0.4580
+  recall                              0.5766
+  noise_sensitivity_in_relevant       0.1763
+  noise_sensitivity_in_irrelevant     0.0679
+  claim_recall                        0.4921
+  context_precision                   0.4405
+  f1                                  0.4168
+
+--- Категория: Compomat (10 вопросов) ---
+  context_utilization                 0.2000
+  hallucination                       0.4500
+  self_knowledge                      0.1000
+  faithfulness                        0.3500
+  precision                           0.5250
+  recall                              0.4500
+  noise_sensitivity_in_relevant       0.0000
+  noise_sensitivity_in_irrelevant     0.0000
+  claim_recall                        0.2000
+  context_precision                   0.1400
+  f1                                  0.4357
+
+--- Категория: SQL (18 вопросов) ---
+  context_utilization                 0.7000
+  hallucination                       0.1865
+  self_knowledge                      0.0873
+  faithfulness                        0.6151
+  precision                           0.4459
+  recall                              0.6866
+  noise_sensitivity_in_relevant       0.2815
+  noise_sensitivity_in_irrelevant     0.0305
+  claim_recall                        0.5940
+  context_precision                   0.6685
+  f1                                  0.4642
+
+--- Категория: Vector (9 вопросов) ---
+  context_utilization                 0.4889
+  hallucination                       0.2036
+  self_knowledge                      0.1595
+  faithfulness                        0.6369
+  precision                           0.3583
+  recall                              0.7296
+  noise_sensitivity_in_relevant       0.2103
+  noise_sensitivity_in_irrelevant     0.2277
+  claim_recall                        0.6667
+  context_precision                   0.2889
+  f1                                  0.4314

@@ -1,0 +1,94 @@
+code	profile_spec_name	lvl	link	FormEd	Plan_Budg	Plan_Comm	Years	Months
+01.03.02	прикладная математика и информатика	бакалавриат	https://abit.magtu.ru/01-03-02-prikladnaya-matematika-i-informatika	очная	25	10	none	none
+01.04.02	прикладная математика и информатика	магистратура	https://abit.magtu.ru/01-04-02-prikladnaya-matematika-i-informatika	очная	15	5	none	none
+03.04.02	физика	магистратура	https://abit.magtu.ru/03-04-02-fizika	очная	15	5	none	none
+07.03.01	архитектура	бакалавриат	https://abit.magtu.ru/07-03-01-arhitektura	очная	32	6	none	none
+08.03.01	строительство	бакалавриат	https://abit.magtu.ru/08-03-01-stroitelstvo	очная	75	25	none	none
+08.03.01	строительство	бакалавриат	https://abit.magtu.ru/08-03-01-stroitelstvo	очно-заочная	0	25	none	none
+08.04.01	строительство	магистратура	https://abit.magtu.ru/08-04-01-stroitelstvo	очная	16	5	none	none
+08.04.01	строительство	магистратура	https://abit.magtu.ru/08-04-01-stroitelstvo	очно-заочная	0	15	none	none
+09.03.01	информатика и вычислительная техника	бакалавриат	https://abit.magtu.ru/09-03-01-informatika-i-vychislitelnaya-tehnika	заочная	0	40	none	none
+09.03.01	информатика и вычислительная техника	бакалавриат	https://abit.magtu.ru/09-03-01-informatika-i-vychislitelnaya-tehnika	очная	75	25	none	none
+09.03.03	прикладная информатика	бакалавриат	https://abit.magtu.ru/09-03-03-prikladnaya-informatika	очная	50	15	none	none
+09.04.01	информатика и вычислительная техника	магистратура	https://abit.magtu.ru/09-04-01-informatika-i-vychislitelnaya-tehnika	очная	0	15	none	none
+10.05.03	информационная безопасность автоматизированных систем	специалитет	https://abit.magtu.ru/10-05-03-informacionnaya-bezopasnost-avtomatizirovannyh-sistem	очная	50	10	none	none
+11.03.04	электроника и наноэлектроника	бакалавриат	https://abit.magtu.ru/11-03-04-elektronika-i-nanoelektronika	очная	27	10	none	none
+11.04.04	электроника и наноэлектроника	магистратура	https://abit.magtu.ru/11-04-04-elektronika-i-nanoelektronika	очная	15	10	none	none
+12.03.01	приборостроение	бакалавриат	https://abit.magtu.ru/12-03-01-priborostroenie	очная	0	25	none	none
+13.03.01	теплоэнергетика и теплотехника	бакалавриат	https://abit.magtu.ru/13-03-01-teploenergetika-i-teplotehnika	очная	25	10	none	none
+13.03.02	электроэнергетика и электротехника	бакалавриат	https://abit.magtu.ru/13-03-02-elektroenergetika-i-elektrotehnika	заочная	10	70	none	none
+13.03.02	электроэнергетика и электротехника	бакалавриат	https://abit.magtu.ru/13-03-02-elektroenergetika-i-elektrotehnika	очная	0	5	none	none
+13.03.02	электроэнергетика и электротехника	бакалавриат	https://abit.magtu.ru/13-03-02-elektroenergetika-i-elektrotehnika	очная	75	45	none	none
+13.04.01	теплоэнергетика и теплотехника	магистратура	https://abit.magtu.ru/13-04-01-teploenergetika-i-teplotehnika	очная	15	5	none	none
+13.04.02	электроэнергетика и электротехника	магистратура	https://abit.magtu.ru/13-04-02-elektroenergetika-i-elektrotehnika	заочная	0	40	none	none
+13.04.02	электроэнергетика и электротехника	магистратура	https://abit.magtu.ru/13-04-02-elektroenergetika-i-elektrotehnika	очная	45	40	none	none
+13.04.02	электроэнергетика и электротехника (англоязычная программа)	магистратура	https://abit.magtu.ru/13-04-02-elektroenergetika-i-elektrotehnika-angloyazychnaya-programma	заочная	0	40	none	none
+13.04.02	электроэнергетика и электротехника (англоязычная программа)	магистратура	https://abit.magtu.ru/13-04-02-elektroenergetika-i-elektrotehnika-angloyazychnaya-programma	очная	45	40	none	none
+15.03.01	машиностроение	бакалавриат	https://abit.magtu.ru/15-03-01-mashinostroenie	заочная	0	25	none	none
+15.03.01	машиностроение	бакалавриат	https://abit.magtu.ru/15-03-01-mashinostroenie	очная	24	10	none	none
+15.03.02	технологические машины и оборудование	бакалавриат	https://abit.magtu.ru/15-03-02-tehnologicheskie-mashiny-i-oborudovanie	заочная	0	25	none	none
+15.03.02	технологические машины и оборудование	бакалавриат	https://abit.magtu.ru/15-03-02-tehnologicheskie-mashiny-i-oborudovanie	очная	23	10	none	none
+15.03.05	конструкторско-технологическое обеспечение машиностроительных производств	бакалавриат	https://abit.magtu.ru/15-03-05-konstruktorsko-tehnologicheskoe-obespechenie-mashinostroitelnyh-proizvodstv	очная	24	0	none	none
+15.03.06	мехатроника и робототехника	бакалавриат	https://abit.magtu.ru/15-03-06-mehatronika-i-robototehnika	очная	24	10	none	none
+15.04.01	машиностроение	магистратура	https://abit.magtu.ru/15-04-01-mashinostroenie	заочная	0	10	none	none
+15.04.01	машиностроение	магистратура	https://abit.magtu.ru/15-04-01-mashinostroenie	очная	11	5	none	none
+15.04.02	технологические машины и оборудование	магистратура	https://abit.magtu.ru/15-04-02-tehnologicheskie-mashiny-i-oborudovanie	очная	12	5	none	none
+15.04.05	конструкторско-технологическое обеспечение машиностроительных производств	магистратура	https://abit.magtu.ru/15-04-05-konstruktorsko-tehnologicheskoe-obespechenie-mashinostroitelnyh-proizvodstv	очная	11	5	none	none
+15.04.06	мехатроника и робототехника	магистратура	https://abit.magtu.ru/15-04-06-mehatronika-i-robototehnika	очная	11	5	none	none
+18.03.01	химическая технология	бакалавриат	https://abit.magtu.ru/18-03-01-himicheskaya-tehnologiya	очная	25	10	none	none
+20.03.01	техносферная безопасность	бакалавриат	https://abit.magtu.ru/20-03-01-tehnosfernaya-bezopasnost	заочная	0	30	none	none
+20.03.01	техносферная безопасность	бакалавриат	https://abit.magtu.ru/20-03-01-tehnosfernaya-bezopasnost	очная	25	15	none	none
+20.04.01	техносферная безопасность	магистратура	https://abit.magtu.ru/20-04-01-tehnosfernaya-bezopasnost	очная	12	5	none	none
+21.05.04	горное дело	специалитет	https://abit.magtu.ru/21-05-04-gornoe-delo	заочная	40	141	none	none
+21.05.04	горное дело	специалитет	https://abit.magtu.ru/21-05-04-gornoe-delo	очная	121	0	none	none
+22.03.01	материаловедение и технологии материалов	бакалавриат	https://abit.magtu.ru/22-03-01-materialovedenie-i-tehnologii-materialov	очная	25	10	none	none
+22.03.02	металлургия	бакалавриат	https://abit.magtu.ru/22-03-02-metallurgiya	заочная	10	105	none	none
+22.03.02	металлургия	бакалавриат	https://abit.magtu.ru/22-03-02-metallurgiya	очная	0	5	none	none
+22.03.02	металлургия	бакалавриат	https://abit.magtu.ru/22-03-02-metallurgiya	очная	25	5	none	none
+22.03.02	металлургия	бакалавриат	https://abit.magtu.ru/22-03-02-metallurgiya	очная	100	25	none	none
+22.04.02	металлургия	магистратура	https://abit.magtu.ru/22-04-02-metallurgiya	заочная	0	15	none	none
+22.04.02	металлургия	магистратура	https://abit.magtu.ru/22-04-02-metallurgiya	очная	59	35	none	none
+23.04.01	технология транспортных процессов	магистратура	https://abit.magtu.ru/23-04-01-tehnologiya-transportnyh-processov	очная	12	10	none	none
+23.05.04	эксплуатация железных дорог	специалитет	https://abit.magtu.ru/23-05-04-ekspluataciya-zheleznyh-dorog	заочная	0	25	none	none
+23.05.04	эксплуатация железных дорог	специалитет	https://abit.magtu.ru/23-05-04-ekspluataciya-zheleznyh-dorog	очная	25	10	none	none
+27.03.01	стандартизация и метрология	бакалавриат	https://abit.magtu.ru/27-03-01-standartizaciya-i-metrologiya	очная	23	10	none	none
+27.03.04	управление в технических системах	бакалавриат	https://abit.magtu.ru/27-03-04-upravlenie-v-tehnicheskih-sistemah	заочная	0	40	none	none
+27.03.04	управление в технических системах	бакалавриат	https://abit.magtu.ru/27-03-04-upravlenie-v-tehnicheskih-sistemah	очная	23	15	none	none
+27.04.01	стандартизация и метрология	магистратура	https://abit.magtu.ru/27-04-01-standartizaciya-i-metrologiya	очная	11	5	none	none
+27.04.04	управление в технических системах	магистратура	https://abit.magtu.ru/27-04-04-upravlenie-v-tehnicheskih-sistemah	очная	10	5	none	none
+29.03.03	технология полиграфического и упаковочного производства	бакалавриат	https://abit.magtu.ru/29-03-03-tehnologiya-poligraficheskogo-i-upakovochnogo-proizvodstva	очная	25	10	none	none
+29.04.04	технология художественной обработки материалов	магистратура	https://abit.magtu.ru/29-04-04-tehnologiya-hudozhestvennoy-obrabotki-materialov	очная	15	5	none	none
+37.03.01	психология	бакалавриат	https://abit.magtu.ru/37-03-01-psihologiya	очно-заочная	0	25	none	none
+38.03.01	экономика	бакалавриат	https://abit.magtu.ru/38-03-01-ekonomika	очная	0	29	none	none
+38.03.01	экономика	бакалавриат	https://abit.magtu.ru/38-03-01-ekonomika	очно-заочная	0	29	none	none
+38.03.02	менеджмент	бакалавриат	https://abit.magtu.ru/38-03-02-menedzhment	очная	0	30	none	none
+38.03.02	менеджмент	бакалавриат	https://abit.magtu.ru/38-03-02-menedzhment	очно-заочная	0	30	none	none
+38.03.03	управление персоналом	бакалавриат	https://abit.magtu.ru/38-03-03-upravlenie-personalom	очная	0	20	none	none
+38.04.01	экономика	магистратура	https://abit.magtu.ru/38-04-01-ekonomika	заочная	0	35	none	none
+38.04.01	экономика	магистратура	https://abit.magtu.ru/38-04-01-ekonomika	очная	0	40	none	none
+38.04.02	менеджмент	магистратура	https://abit.magtu.ru/38-04-02-menedzhment	заочная	0	20	none	none
+38.04.02	менеджмент	магистратура	https://abit.magtu.ru/38-04-02-menedzhment	очная	0	15	none	none
+38.04.03	управление персоналом	магистратура	https://abit.magtu.ru/38-04-03-upravlenie-personalom	заочная	0	15	none	none
+39.03.01	социология	бакалавриат	https://abit.magtu.ru/39.03.01-socziologiya	заочная	0	25	none	none
+40.03.01	юриспруденция	бакалавриат	https://abit.magtu.ru/40-03-01-yurisprudenciya	очная	0	30	none	none
+40.03.01	юриспруденция	бакалавриат	https://abit.magtu.ru/40-03-01-yurisprudenciya	очно-заочная	0	30	none	none
+42.03.01	реклама и связи с общественностью	бакалавриат	https://abit.magtu.ru/42-03-01-reklama-i-svyazi-s-obschestvennostyu	заочная	0	30	none	none
+44.03.01	педагогическое образование	бакалавриат	https://abit.magtu.ru/44-03-01-pedagogicheskoe-obrazovanie	заочная	0	90	none	none
+44.03.01	педагогическое образование	бакалавриат	https://abit.magtu.ru/44-03-01-pedagogicheskoe-obrazovanie	очная	0	55	none	none
+44.03.02	психолого-педагогическое образование	бакалавриат	https://abit.magtu.ru/44-03-02-psihologo-pedagogicheskoe-obrazovanie	заочная	0	40	none	none
+44.03.02	психолого-педагогическое образование	бакалавриат	https://abit.magtu.ru/44-03-02-psihologo-pedagogicheskoe-obrazovanie	очная	50	15	none	none
+44.03.03	специальное (дефектологическое) образование	бакалавриат	https://abit.magtu.ru/44-03-03-specialnoe-defektologicheskoe-obrazovanie	заочная	0	45	none	none
+44.03.03	специальное (дефектологическое) образование	бакалавриат	https://abit.magtu.ru/44-03-03-specialnoe-defektologicheskoe-obrazovanie	очная	24	12	none	none
+44.03.05	педагогическое образование (с двумя профилями)	бакалавриат	https://abit.magtu.ru/44-03-05-pedagogicheskoe-obrazovanie-s-dvumya-profilyami	заочная	0	25	none	none
+44.03.05	педагогическое образование (с двумя профилями)	бакалавриат	https://abit.magtu.ru/44-03-05-pedagogicheskoe-obrazovanie-s-dvumya-profilyami	очная	154	46	none	none
+44.04.01	педагогическое образование	магистратура	https://abit.magtu.ru/44-04-01-pedagogicheskoe-obrazovanie	заочная	0	57	none	none
+44.04.01	педагогическое образование	магистратура	https://abit.magtu.ru/44-04-01-pedagogicheskoe-obrazovanie	очная	38	38	none	none
+44.04.02	психолого-педагогическое образование	магистратура	https://abit.magtu.ru/44-04-02-psihologo-pedagogicheskoe-obrazovanie	заочная	0	100	none	none
+44.04.02	психолого-педагогическое образование	магистратура	https://abit.magtu.ru/44-04-02-psihologo-pedagogicheskoe-obrazovanie	очная	22	10	none	none
+44.04.03	специальное (дефектологическое) образование	магистратура	https://abit.magtu.ru/44-04-03-specialnoe-defektologicheskoe-obrazovanie	заочная	0	30	none	none
+45.03.01	филология	бакалавриат	https://abit.magtu.ru/45-03-01-filologiya	заочная	0	13	none	none
+45.05.01	перевод и переводоведение	специалитет	https://abit.magtu.ru/45-05-01-perevod-i-perevodovedenie	очная	0	14	none	none
+46.03.02	документоведение и архивоведение	бакалавриат	https://abit.magtu.ru/46-03-02-dokumentovedenie-i-arhivovedenie	заочная	0	25	none	none
+46.04.01	история	магистратура	https://abit.magtu.ru/46.04.01-istoriya	заочная	0	15	none	none
+49.03.01	физическая культура	бакалавриат	https://abit.magtu.ru/49-03-01-fizicheskaya-kultura	очная	20	5	none	none
+54.03.01	дизайн	бакалавриат	https://abit.magtu.ru/54-03-01-dizayn	очно-заочная	0	25	none	none

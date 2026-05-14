@@ -1,0 +1,31 @@
+# Environment
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.ruff_cache/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Docker dev override (опционально раскомментировать)
+# docker-compose.override.yml
+
+# Alembic
+alembic/versions/*.pyc
+
+# Data
+# Исходные JSON файлы и сгенерированный documents.json хранятся в репозитории.
+# Раскомментируй если файлы слишком большие для git:
+# data/qdrant/documents.json
+# data/postgres/*.csv

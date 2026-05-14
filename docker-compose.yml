@@ -1,0 +1,183 @@
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Зеркало PyPI для pip install внутри Docker build.
+        # Переопределяется через .env: PIP_INDEX_URL=https://...
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-https://pypi.org/simple/}
+        PIP_TRUSTED_HOST: ${PIP_TRUSTED_HOST:-pypi.org}
+    restart: unless-stopped
+    env_file: .env
+    # pull_policy: never — не тянуть образ из registry, использовать локальный кэш.
+    # Убери эту строку если нужно всегда скачивать свежий образ.
+    pull_policy: never
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      vllm_llm:
+        condition: service_healthy
+      vllm_embedder:
+        condition: service_healthy
+    networks:
+      - internal
+    volumes:
+      - ./data:/app/data:ro
+      - ./app/prompts/tables/schemas.json:/app/app/prompts/tables/schemas.json:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  vllm_llm:
+    image: vllm/vllm-openai:latest
+    pull_policy: never
+    restart: unless-stopped
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ${HF_CACHE_DIR:-~/.cache/huggingface}:/root/.cache/huggingface
+    command: >
+      --model ${VLLM_LLM_MODEL}
+      --gpu-memory-utilization 0.85
+      --max-model-len ${VLLM_LLM_MAX_MODEL_LEN:-16384}
+      --max-num-seqs ${VLLM_LLM_MAX_CONCURRENT}
+      --port ${VLLM_LLM_PORT:-8000}
+      --served-model-name ${VLLM_LLM_MODEL}
+    ports:
+      - "${VLLM_LLM_PORT:-8000}:${VLLM_LLM_PORT:-8000}"
+    networks:
+      - internal
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${VLLM_LLM_PORT:-8000}/health"]
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 120s
+
+  vllm_embedder:
+    # infinity-emb: лёгкий OpenAI-совместимый сервер для embedding моделей.
+    # Работает на CPU и GPU. Образ vllm/vllm-openai не поддерживает CPU режим.
+    image: michaelf34/infinity:latest
+    pull_policy: never
+    restart: unless-stopped
+    volumes:
+      # Монтируем директорию с моделями в стандартный HF cache путь внутри контейнера
+      - ${HF_CACHE_DIR:-~/.cache/huggingface}:/root/.cache/huggingface
+    environment:
+      # Модель передаётся через env var — infinity-emb читает INFINITY_MODEL_ID
+      INFINITY_MODEL_ID: ${VLLM_EMBEDDER_MODEL}
+      INFINITY_PORT: ${VLLM_EMBEDDER_PORT:-8001}
+      INFINITY_DEVICE: ${EMBEDDING_DEVICE:-cpu}
+      # Все пути к HF кэшу
+      HF_HOME: /root/.cache/huggingface
+      HF_HUB_CACHE: /root/.cache/huggingface
+      TRANSFORMERS_CACHE: /root/.cache/huggingface
+      # Только локальные файлы — не валидировать через HF Hub
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      DO_NOT_TRACK: "1"
+    command: v2
+    ports:
+      - "${VLLM_EMBEDDER_PORT:-8001}:${VLLM_EMBEDDER_PORT:-8001}"
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${VLLM_EMBEDDER_PORT:-8001}/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 5
+      start_period: 60s
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    pull_policy: never
+    restart: unless-stopped
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - "6333:6333"
+    networks:
+      - internal
+    healthcheck:
+      # Qdrant не содержит curl/wget/sh — проверяем через сам бинарь
+      test: ["CMD", "/qdrant/qdrant", "--version"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+  postgres:
+    image: postgres:16-alpine
+    pull_policy: never
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    pull_policy: never
+    restart: unless-stopped
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  nginx:
+    image: nginx:alpine
+    pull_policy: never
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
+    networks:
+      - internal
+
+volumes:
+  qdrant_data:
+  postgres_data:
+  redis_data:
+
+networks:
+  internal:
+    driver: bridge
