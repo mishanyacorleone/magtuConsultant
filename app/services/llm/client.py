@@ -23,15 +23,19 @@ class LLMClient:
         messages: list[dict],
         temperature: float = 0.7,
         max_tokens: int | None = None,
+        response_format: dict | None = None,
     ) -> str:
         logger.debug("llm_request_start | messages=%s temperature=%s", len(messages), temperature)
         try:
-            response = await self._client.chat.completions.create(
+            kwargs = dict(
                 model=self._model,
                 messages=messages,
                 temperature=temperature,
                 max_tokens=max_tokens or 2048,
             )
+            if response_format:
+                kwargs["response_format"] = response_format
+            response = await self._client.chat.completions.create(**kwargs)
             content = response.choices[0].message.content or ""
             if response.usage:
                 logger.debug("llm_request_done | completion_tokens=%s prompt_tokens=%s", response.usage.completion_tokens, response.usage.prompt_tokens)

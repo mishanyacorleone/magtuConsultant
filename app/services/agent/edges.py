@@ -10,9 +10,8 @@ def route_by_source(state: AgentState) -> str:
 
 
 def route_after_sql_validation(state: AgentState) -> str:
-    """
-    После sql_validator_node: выполнять SQL или генерировать заново.
- 
+    """После sql_validator_node: выполнять SQL или генерировать заново.
+
     Если sql_error есть — нода уже инкрементировала retry_count.
     Здесь читаем актуальное значение.
     """
@@ -29,11 +28,18 @@ def route_after_sql_execution(state: AgentState) -> str:
 
 
 def route_retry_or_fallback(state: AgentState) -> str:
-    """
-    Решает: ещё одна попытка SQL или fallback в Qdrant.
- 
+    """Решает: ещё одна попытка SQL или fallback в Qdrant.
+
     retry_count уже инкрементирован в validator или executor.
     """
     if state["retry_count"] <= settings.sql_max_retries:
         return "retry"
     return "fallback_qdrant"
+
+
+def route_after_table_selector(state: AgentState) -> str:
+    """После table_selector: если выбрана vi_soo_vo — subject_matcher, иначе sample_data."""
+    tables = state.get("selected_tables", [])
+    if "vi_soo_vo" in tables:
+        return "subject_matcher"
+    return "sample_data"

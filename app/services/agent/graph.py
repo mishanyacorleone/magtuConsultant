@@ -1,7 +1,6 @@
 from functools import partial
 
 import redis.asyncio as aioredis
-from langchain_core.runnables import RunnableConfig
 from langgraph.graph import END, START, StateGraph
 from qdrant_client import AsyncQdrantClient
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -12,6 +11,7 @@ from app.repositories.qdrant import QdrantRepository
 from app.services.agent.edges import (
     route_after_sql_execution,
     route_after_sql_validation,
+    route_after_table_selector,
     route_by_source,
     route_retry_or_fallback,
 )
@@ -22,6 +22,7 @@ from app.services.agent.nodes.sample_data import sample_data_node
 from app.services.agent.nodes.sql_executor import sql_executor_node
 from app.services.agent.nodes.sql_generator import sql_generator_node
 from app.services.agent.nodes.sql_validator import sql_validator_node
+from app.services.agent.nodes.subject_matcher import subject_matcher_node
 from app.services.agent.nodes.table_selector import table_selector_node
 from app.services.agent.state import AgentState
 from app.services.embedding.client import EmbeddingClient
@@ -37,21 +38,8 @@ def build_graph(
     qdrant_client: AsyncQdrantClient,
     redis: aioredis.Redis,
 ) -> StateGraph:
-    """
-    Собирает и компилирует LangGraph граф агента.
- 
-    Зависимости инжектируются через partial — каждая нода
-    получает нужные репозитории/клиенты без глобального состояния.
- 
-    Args:
-        session:       SQLAlchemy async сессия (на время одного запроса)
-        qdrant_client: Клиент Qdrant
-        redis:         Redis клиент для circuit breaker и семафора
- 
-    Returns:
-        Скомпилированный граф готовый к вызову через .ainvoke()
-    """
-    # Инициализируем зависимости
+    """Собирает и компилирует LangGraph граф агента."""
+
     circuit_breaker = CircuitBreaker(redis)
     llm = LLMClient(circuit_breaker)
     embedding_client = EmbeddingClient()
@@ -59,38 +47,36 @@ def build_graph(
     sql_repo = SQLRepository(session)
     history_service = HistoryService(session)
 
-    # -------------------------------------------------------------------------
-    # Вспомогательные ноды с инжектированными зависимостями
-    # -------------------------------------------------------------------------
     async def load_history(state: AgentState) -> dict:
         history = await history_service.get_history(state["user_id"])
         return {"history": history}
-    
+
     async def save_history(state: AgentState) -> dict:
         if state.get("should_save_history", True) and state.get("answer"):
             await history_service.save(
                 user_id=state["user_id"],
                 question=state["question"],
                 answer=state["answer"],
-                source=state.get("source")
+                source=state.get("source"),
             )
         return {}
 
-    # -------------------------------------------------------------------------
-    # Строим граф
-    # -------------------------------------------------------------------------
-
     graph = StateGraph(AgentState)
 
-    # Регистрируем ноды
+    # Ноды
     graph.add_node("load_history", load_history)
     graph.add_node("router", partial(router_node, llm=llm))
     graph.add_node("qdrant_search", partial(
         qdrant_search_node,
         embedding_client=embedding_client,
-        qdrant_repo=qdrant_repo
+        qdrant_repo=qdrant_repo,
     ))
     graph.add_node("table_selector", partial(table_selector_node, llm=llm))
+    graph.add_node("subject_matcher", partial(
+        subject_matcher_node,
+        llm=llm,
+        db_session=session,
+    ))
     graph.add_node("sample_data", partial(sample_data_node, sql_repo=sql_repo))
     graph.add_node("sql_generator", partial(sql_generator_node, llm=llm))
     graph.add_node("sql_validator", sql_validator_node)
@@ -98,63 +84,51 @@ def build_graph(
     graph.add_node("answer_generator", partial(answer_generator_node, llm=llm))
     graph.add_node("save_history", save_history)
 
-    # -------------------------------------------------------------------------
-    # Рёбра — основной поток
-    # -------------------------------------------------------------------------
-
+    # Рёбра
     graph.add_edge(START, "load_history")
     graph.add_edge("load_history", "router")
 
-    # Роутер → qdrant или postgres path
     graph.add_conditional_edges(
         "router",
         route_by_source,
-        {
-            "qdrant": "qdrant_search",
-            "postgres": "table_selector"
-        }
+        {"qdrant": "qdrant_search", "postgres": "table_selector"},
     )
 
-    # Qdrant path → ответ
     graph.add_edge("qdrant_search", "answer_generator")
 
-    # Postgres path
-    graph.add_edge("table_selector", "sample_data")
+    # После table_selector: vi_soo_vo → subject_matcher, остальное → sample_data
+    graph.add_conditional_edges(
+        "table_selector",
+        route_after_table_selector,
+        {"subject_matcher": "subject_matcher", "sample_data": "sample_data"},
+    )
+
+    # subject_matcher сразу идёт в answer_generator — данные уже готовы
+    graph.add_edge("subject_matcher", "answer_generator")
+
+    # Обычный postgres path
     graph.add_edge("sample_data", "sql_generator")
     graph.add_edge("sql_generator", "sql_validator")
 
-    # После валидации: выполнять или retry/fallback
     graph.add_conditional_edges(
         "sql_validator",
         route_after_sql_validation,
-        {
-            "execute": "sql_executor",
-            "retry_or_fallback": "retry_or_fallback_router"
-        }
+        {"execute": "sql_executor", "retry_or_fallback": "retry_or_fallback_router"},
     )
 
-    # После выполнения: ответ или retry/fallback
     graph.add_conditional_edges(
         "sql_executor",
         route_after_sql_execution,
-        {
-            "generate_answer": "answer_generator",
-            "retry_or_fallback": "retry_or_fallback_router"
-        }
+        {"generate_answer": "answer_generator", "retry_or_fallback": "retry_or_fallback_router"},
     )
 
-    # Промежуточный роутер retry vs fallback
     graph.add_node("retry_or_fallback_router", lambda state: {})
     graph.add_conditional_edges(
         "retry_or_fallback_router",
         route_retry_or_fallback,
-        {
-            "retry": "sql_generator",
-            "fallback_qdrant": "qdrant_search"
-        }
+        {"retry": "sql_generator", "fallback_qdrant": "qdrant_search"},
     )
 
-    # Финал
     graph.add_edge("answer_generator", "save_history")
     graph.add_edge("save_history", END)
 
