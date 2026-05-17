@@ -1,34 +1,34 @@
 {
   "marks_last_years": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://www.magtu.ru/abit/points.php",
     "title": "Проходные баллы прошлых лет"
   },
   "spec_info": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://abit.magtu.ru/?bak&spec",
     "title": "Специальности и направления подготовки"
   },
   "vi_soo_vo": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://www.magtu.ru/abit/17769-perechen-vi-soo-vo-2025-bs.html",
     "title": "Вступительные испытания (после школы)"
   },
   "vi_spo": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://www.magtu.ru/abit/17773-perechen-vi-spo-2025-bs.html",
     "title": "Вступительные испытания (после колледжа)"
   },
   "vi_mag": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://www.magtu.ru/abit/17781-perechen-visp-2025-m.html",
     "title": "Вступительные испытания в магистратуру"
   },
   "prices": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://www.magtu.ru/abit/14630-stoimost-obucheniya-bs.html",
     "title": "Стоимость обучения"
   },
   "min_max_marks": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://www.magtu.ru/abit/17775-min-max-bally-2025-bs.html",
     "title": "Минимальные и максимальные баллы по предметам"
   },
   "vo_spo_comb": {
-    "url": "https://abit.magtu.ru/priem/TODO",
+    "url": "https://www.magtu.ru/abit/18814-prilozhenie-14-sootvetstvie-napravlennosti-profilya-programm-bakalavriata-programm-spetsialiteta-napravlennosti-profilyu-srednego-professionalnogo-obrazovaniya.html",
     "title": "Соответствие специальностей СПО и ВО"
   }
 }

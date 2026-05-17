@@ -78,7 +78,7 @@ async def load_table(conn: asyncpg.Connection, csv_path: Path) -> int:
         raw_rows = list(reader)
 
     if not raw_rows:
-        logger.warning("ingest_postgres_empty", table=table_name)
+        logger.warning("ingest_postgres_empty | table=%s", table_name)
         return 0
 
     rows = [process_row(row, table_name) for row in raw_rows]
@@ -96,11 +96,11 @@ async def load_table(conn: asyncpg.Connection, csv_path: Path) -> int:
         records = [tuple(row[col] for col in columns) for row in rows]
         await conn.executemany(insert_sql, records)
 
-        logger.info("ingest_postgres_table_done", table=table_name, rows=len(rows))
+        logger.info("ingest_postgres_table_done | table=%s rows=%s", table_name, len(rows))
         return len(rows)
 
     except Exception as exc:
-        logger.error("ingest_postgres_table_error", table=table_name, error=str(exc))
+        logger.error("ingest_postgres_table_error | table=%s error=%s", table_name, str(exc))
         raise
 
 
@@ -121,7 +121,7 @@ async def ingest(data_dir: Path, only_table: str | None) -> None:
             print(f"Error: {only_table}.csv not found in {data_dir}")
             sys.exit(1)
 
-    logger.info("ingest_postgres_start", tables=[f.stem for f in csv_files])
+    logger.info("ingest_postgres_start | tables=%s", [f.stem for f in csv_files])
 
     conn = await asyncpg.connect(dsn)
     total_rows = 0
