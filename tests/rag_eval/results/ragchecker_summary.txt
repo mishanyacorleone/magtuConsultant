@@ -1,54 +1,53 @@
-=== RAGChecker Evaluation Summary ===
+=== RAGChecker Summary ===
 
---- ОБЩИЕ МЕТРИКИ ---
-  Вопросов: 37
-  context_utilization                 0.4676
-  hallucination                       0.2708
-  self_knowledge                      0.1264
-  faithfulness                        0.5218
-  precision                           0.4580
-  recall                              0.5766
-  noise_sensitivity_in_relevant       0.1763
-  noise_sensitivity_in_irrelevant     0.0679
-  claim_recall                        0.4921
-  context_precision                   0.4405
-  f1                                  0.4168
+ОБЩИЕ (37 вопросов):
+  noise_sensitivity_in_relevant       0.1976
+  noise_sensitivity_in_irrelevant     0.0773
+  hallucination                       0.2576
+  self_knowledge                      0.1093
+  context_utilization                 0.5243
+  claim_recall                        0.5071
+  context_precision                   0.4495
+  faithfulness                        0.5521
+  precision                           0.4405
+  recall                              0.6156
+  f1                                  0.4580
 
---- Категория: Compomat (10 вопросов) ---
-  context_utilization                 0.2000
-  hallucination                       0.4500
-  self_knowledge                      0.1000
-  faithfulness                        0.3500
-  precision                           0.5250
-  recall                              0.4500
+Compomat (10 вопросов):
   noise_sensitivity_in_relevant       0.0000
   noise_sensitivity_in_irrelevant     0.0000
-  claim_recall                        0.2000
-  context_precision                   0.1400
-  f1                                  0.4357
+  hallucination                       0.5500
+  self_knowledge                      0.0500
+  context_utilization                 0.3000
+  claim_recall                        0.3000
+  context_precision                   0.1800
+  faithfulness                        0.3000
+  precision                           0.4500
+  recall                              0.4500
+  f1                                  0.4500
 
---- Категория: SQL (18 вопросов) ---
-  context_utilization                 0.7000
-  hallucination                       0.1865
-  self_knowledge                      0.0873
-  faithfulness                        0.6151
-  precision                           0.4459
-  recall                              0.6866
-  noise_sensitivity_in_relevant       0.2815
-  noise_sensitivity_in_irrelevant     0.0305
-  claim_recall                        0.5940
-  context_precision                   0.6685
-  f1                                  0.4642
+SQL (18 вопросов):
+  noise_sensitivity_in_relevant       0.2215
+  noise_sensitivity_in_irrelevant     0.0307
+  hallucination                       0.2072
+  self_knowledge                      0.0902
+  context_utilization                 0.6444
+  claim_recall                        0.5088
+  context_precision                   0.6352
+  faithfulness                        0.5915
+  precision                           0.4990
+  recall                              0.6051
+  f1                                  0.4691
 
---- Категория: Vector (9 вопросов) ---
-  context_utilization                 0.4889
-  hallucination                       0.2036
-  self_knowledge                      0.1595
-  faithfulness                        0.6369
-  precision                           0.3583
-  recall                              0.7296
-  noise_sensitivity_in_relevant       0.2103
-  noise_sensitivity_in_irrelevant     0.2277
-  claim_recall                        0.6667
-  context_precision                   0.2889
-  f1                                  0.4314
+Vector (9 вопросов):
+  noise_sensitivity_in_relevant       0.2792
+  noise_sensitivity_in_irrelevant     0.1323
+  hallucination                       0.2251
+  self_knowledge                      0.1291
+  context_utilization                 0.4444
+  claim_recall                        0.6349
+  context_precision                   0.3556
+  faithfulness                        0.6458
+  precision                           0.3634
+  recall                              0.7169
+  f1                                  0.4233

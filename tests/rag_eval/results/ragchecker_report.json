@@ -3,17 +3,17 @@
     "count": 37,
     "has_gt": true,
     "metrics": {
-      "context_utilization": 0.4676,
-      "hallucination": 0.2708,
-      "self_knowledge": 0.1264,
-      "faithfulness": 0.5218,
-      "precision": 0.458,
-      "recall": 0.5766,
-      "noise_sensitivity_in_relevant": 0.1763,
-      "noise_sensitivity_in_irrelevant": 0.0679,
-      "claim_recall": 0.4921,
-      "context_precision": 0.4405,
-      "f1": 0.4168
+      "noise_sensitivity_in_relevant": 0.1976,
+      "noise_sensitivity_in_irrelevant": 0.0773,
+      "hallucination": 0.2576,
+      "self_knowledge": 0.1093,
+      "context_utilization": 0.5243,
+      "claim_recall": 0.5071,
+      "context_precision": 0.4495,
+      "faithfulness": 0.5521,
+      "precision": 0.4405,
+      "recall": 0.6156,
+      "f1": 0.458
     }
   },
   "by_category": {
@@ -21,51 +21,51 @@
       "count": 10,
       "has_gt": true,
       "metrics": {
-        "context_utilization": 0.2,
-        "hallucination": 0.45,
-        "self_knowledge": 0.1,
-        "faithfulness": 0.35,
-        "precision": 0.525,
-        "recall": 0.45,
         "noise_sensitivity_in_relevant": 0.0,
         "noise_sensitivity_in_irrelevant": 0.0,
-        "claim_recall": 0.2,
-        "context_precision": 0.14,
-        "f1": 0.4357
+        "hallucination": 0.55,
+        "self_knowledge": 0.05,
+        "context_utilization": 0.3,
+        "claim_recall": 0.3,
+        "context_precision": 0.18,
+        "faithfulness": 0.3,
+        "precision": 0.45,
+        "recall": 0.45,
+        "f1": 0.45
       }
     },
     "SQL": {
       "count": 18,
       "has_gt": true,
       "metrics": {
-        "context_utilization": 0.7,
-        "hallucination": 0.1865,
-        "self_knowledge": 0.0873,
-        "faithfulness": 0.6151,
-        "precision": 0.4459,
-        "recall": 0.6866,
-        "noise_sensitivity_in_relevant": 0.2815,
-        "noise_sensitivity_in_irrelevant": 0.0305,
-        "claim_recall": 0.594,
-        "context_precision": 0.6685,
-        "f1": 0.4642
+        "noise_sensitivity_in_relevant": 0.2215,
+        "noise_sensitivity_in_irrelevant": 0.0307,
+        "hallucination": 0.2072,
+        "self_knowledge": 0.0902,
+        "context_utilization": 0.6444,
+        "claim_recall": 0.5088,
+        "context_precision": 0.6352,
+        "faithfulness": 0.5915,
+        "precision": 0.499,
+        "recall": 0.6051,
+        "f1": 0.4691
       }
     },
     "Vector": {
       "count": 9,
       "has_gt": true,
       "metrics": {
-        "context_utilization": 0.4889,
-        "hallucination": 0.2036,
-        "self_knowledge": 0.1595,
-        "faithfulness": 0.6369,
-        "precision": 0.3583,
-        "recall": 0.7296,
-        "noise_sensitivity_in_relevant": 0.2103,
-        "noise_sensitivity_in_irrelevant": 0.2277,
-        "claim_recall": 0.6667,
-        "context_precision": 0.2889,
-        "f1": 0.4314
+        "noise_sensitivity_in_relevant": 0.2792,
+        "noise_sensitivity_in_irrelevant": 0.1323,
+        "hallucination": 0.2251,
+        "self_knowledge": 0.1291,
+        "context_utilization": 0.4444,
+        "claim_recall": 0.6349,
+        "context_precision": 0.3556,
+        "faithfulness": 0.6458,
+        "precision": 0.3634,
+        "recall": 0.7169,
+        "f1": 0.4233
       }
     }
   }

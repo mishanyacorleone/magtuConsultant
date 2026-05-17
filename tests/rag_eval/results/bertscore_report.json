@@ -2,19 +2,32 @@
   "model": "/mnt/mishutqa/PycharmProjects/abitBot/app/models/deepvk/USER-bge-m3",
   "device": "cpu",
   "overall": {
-    "count": 27,
+    "count": 37,
     "vs_context": {
-      "precision": 0.6549,
-      "recall": 0.6549,
-      "f1": 0.6549
+      "precision": 0.6154,
+      "recall": 0.6154,
+      "f1": 0.6154
     },
     "vs_gt": {
-      "precision": 0.7359,
-      "recall": 0.7359,
-      "f1": 0.7359
+      "precision": 0.8071,
+      "recall": 0.8071,
+      "f1": 0.8071
     }
   },
   "by_category": {
+    "Compomat": {
+      "count": 10,
+      "vs_context": {
+        "precision": 0.5088,
+        "recall": 0.5088,
+        "f1": 0.5088
+      },
+      "vs_gt": {
+        "precision": 0.9996,
+        "recall": 0.9996,
+        "f1": 0.9996
+      }
+    },
     "SQL": {
       "count": 18,
       "vs_context": {
@@ -41,6 +54,5 @@
         "f1": 0.7049
       }
     }
-  },
-  "per_sample": []
+  }
 }

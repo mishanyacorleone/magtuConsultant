@@ -1,13 +1,5 @@
 """
-Скрипт 02: RAGChecker с разбивкой по категориям.
-
-Вход:  tests/rag_eval/results/raw_answers.json
-Выход: tests/rag_eval/results/ragchecker_report.json
-       tests/rag_eval/results/ragchecker_summary.txt
-
-Использование:
-    python tests/rag_eval/scripts/02_ragchecker_eval.py
-    python tests/rag_eval/scripts/02_ragchecker_eval.py --vllm-url http://localhost:9002/v1
+Скрипт 02: RAGChecker с разбивкой по категориям из данных (без хардкода).
 """
 
 import argparse
@@ -47,7 +39,6 @@ def to_ragchecker_format(records: list[dict]) -> dict:
 
 
 def run_ragchecker_group(records: list[dict], model: str, vllm_url: str) -> dict:
-    """Запускает RAGChecker для группы записей, возвращает aggregate метрики."""
     try:
         from ragchecker import RAGResults, RAGChecker
     except ImportError:
@@ -67,7 +58,7 @@ def run_ragchecker_group(records: list[dict], model: str, vllm_url: str) -> dict
 
     data = to_ragchecker_format(records)
     if not data["results"]:
-        return {"count": 0, "error": "no valid records"}
+        return {"count": 0, "metrics": {}}
 
     rag_results = RAGResults.from_dict(data)
     has_gt = any(r.get("gt_answer", "").strip() for r in data["results"])
@@ -97,27 +88,23 @@ def run_ragchecker_group(records: list[dict], model: str, vllm_url: str) -> dict
                     counts[k] += 1
         aggregate = {k: round(sums[k] / counts[k], 4) for k in sums if counts[k] > 0}
 
-    return {"count": len(data["results"]), "has_gt": has_gt, "metrics": aggregate}
+    return {"count": len(data["results"]), "has_gt": has_gt,
+            "metrics": {k: round(v, 4) for k, v in aggregate.items()}}
 
 
-def print_group_metrics(label: str, result: dict) -> None:
-    sep = "=" * 55
-    print(f"\n{sep}")
+def print_group(label: str, result: dict) -> None:
+    print(f"\n{'=' * 55}")
     print(f"  {label}  ({result.get('count', 0)} вопросов)")
-    print(sep)
-    if "error" in result:
-        print(f"  ⚠ {result['error']}")
-        return
+    print(f"{'=' * 55}")
     for k, v in result.get("metrics", {}).items():
         print(f"  {k:<35} {v:.4f}")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="RAGChecker оценка")
+    parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=Path, default=RESULTS_DIR / "raw_answers.json")
     parser.add_argument("--model", default=VLLM_MODEL)
     parser.add_argument("--vllm-url", default=VLLM_BASE_URL)
-    parser.add_argument("--no-skip-compromat", action="store_true", default=False)
     args = parser.parse_args()
 
     if not args.input.exists():
@@ -127,61 +114,46 @@ def main():
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     records = load_records(args.input)
     valid = [r for r in records if r.get("actual_answer") and not r.get("error")]
-    print(f"Загружено записей: {len(valid)} из {len(records)}")
+    print(f"Записей: {len(valid)} из {len(records)}")
 
-    skip_compromat = not args.no_skip_compromat
-
+    # Группировка по категориям из данных
     by_cat: dict[str, list] = defaultdict(list)
     for r in valid:
-        by_cat[r.get("category", "Unknown")].append(r)
+        by_cat[r.get("category", "unknown")].append(r)
 
-    categories_to_eval = {
-        cat: recs for cat, recs in by_cat.items()
-        if not (skip_compromat and cat.lower() == "compomat")
-    }
+    print(f"Категории: {sorted(by_cat.keys())}\n")
 
-    all_for_overall = []
-    for recs in categories_to_eval.values():
-        all_for_overall.extend(recs)
-
-    # Метрики по категориям
     cat_results = {}
-    for cat, recs in sorted(categories_to_eval.items()):
-        print(f"\n--- RAGChecker: категория {cat} ({len(recs)} вопросов) ---")
-        cat_results[cat] = run_ragchecker_group(recs, args.model, args.vllm_url)
+    for cat in sorted(by_cat.keys()):
+        print(f"\n--- RAGChecker: {cat} ({len(by_cat[cat])} вопросов) ---")
+        cat_results[cat] = run_ragchecker_group(by_cat[cat], args.model, args.vllm_url)
 
-    # Общие метрики
-    print(f"\n--- RAGChecker: общие метрики ({len(all_for_overall)} вопросов) ---")
-    overall = run_ragchecker_group(all_for_overall, args.model, args.vllm_url)
+    print(f"\n--- RAGChecker: общие ({len(valid)} вопросов) ---")
+    overall = run_ragchecker_group(valid, args.model, args.vllm_url)
 
-    # Консольный вывод
     print("\n\n" + "█" * 55)
     print("  РЕЗУЛЬТАТЫ RAGCHECKER")
     print("█" * 55)
-    print_group_metrics("ОБЩИЕ МЕТРИКИ", overall)
-    for cat, result in sorted(cat_results.items()):
-        print_group_metrics(f"Категория: {cat}", result)
+    print_group("ОБЩИЕ МЕТРИКИ", overall)
+    for cat in sorted(cat_results.keys()):
+        print_group(f"Категория: {cat}", cat_results[cat])
 
-    # Сохранение
     report = {"overall": overall, "by_category": cat_results}
     report_path = RESULTS_DIR / "ragchecker_report.json"
-    with open(report_path, "w", encoding="utf-8") as f:
-        json.dump(report, f, ensure_ascii=False, indent=2, default=str)
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2, default=str))
 
-    lines = ["=== RAGChecker Evaluation Summary ===\n", "--- ОБЩИЕ МЕТРИКИ ---",
-             f"  Вопросов: {overall.get('count', 0)}"]
+    lines = ["=== RAGChecker Summary ===\n", f"ОБЩИЕ ({overall.get('count', 0)} вопросов):"]
     for k, v in overall.get("metrics", {}).items():
         lines.append(f"  {k:<35} {v:.4f}")
-    for cat, result in sorted(cat_results.items()):
-        lines.append(f"\n--- Категория: {cat} ({result.get('count', 0)} вопросов) ---")
-        for k, v in result.get("metrics", {}).items():
+    for cat in sorted(cat_results.keys()):
+        r = cat_results[cat]
+        lines.append(f"\n{cat} ({r.get('count', 0)} вопросов):")
+        for k, v in r.get("metrics", {}).items():
             lines.append(f"  {k:<35} {v:.4f}")
 
     summary_path = RESULTS_DIR / "ragchecker_summary.txt"
     summary_path.write_text("\n".join(lines), encoding="utf-8")
-
-    print(f"\n✓ Отчёт:  {report_path}")
-    print(f"✓ Сводка: {summary_path}")
+    print(f"\n✓ Отчёт: {report_path}\n✓ Сводка: {summary_path}")
 
 
 if __name__ == "__main__":

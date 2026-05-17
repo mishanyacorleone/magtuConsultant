@@ -1,15 +1,10 @@
 """
 Скрипт 01: Сбор ответов от RAG-системы.
 
-Читает questions.xlsx, отправляет каждый вопрос в /v1/chat,
-сохраняет сырые ответы в raw_answers.json для последующей оценки.
+Категории берутся напрямую из Excel без нормализации — только lower().
 
 Вход:  tests/rag_eval/data/questions.xlsx
 Выход: tests/rag_eval/results/raw_answers.json
-
-Использование:
-    python tests/rag_eval/scripts/01_collect_answers.py
-    python tests/rag_eval/scripts/01_collect_answers.py --api-url http://localhost --delay 3
 """
 
 import argparse
@@ -25,16 +20,6 @@ from openpyxl import load_workbook
 RESULTS_DIR = Path(__file__).parent.parent / "results"
 DATA_DIR = Path(__file__).parent.parent / "data"
 
-CATEGORY_ALIASES = {
-    "sql": "SQL", "sqL": "SQL", "SQl": "SQL", "SQL": "SQL",
-    "vector": "Vector", "Vector": "Vector",
-    "compomat": "Compomat", "Compomat": "Compomat",
-}
-
-
-def normalize_category(raw: str) -> str:
-    return CATEGORY_ALIASES.get(raw.strip(), raw.strip())
-
 
 def load_questions(path: Path) -> list[dict]:
     wb = load_workbook(path, read_only=True)
@@ -47,7 +32,8 @@ def load_questions(path: Path) -> list[dict]:
         questions.append({
             "query_id": f"q_{i:03d}",
             "question": str(row[0]).strip(),
-            "category": normalize_category(str(row[1]).strip() if row[1] else "Unknown"),
+            # Категория — как есть из Excel, только lower()
+            "category": str(row[1]).strip().lower() if row[1] else "unknown",
             "ground_truth": str(row[2]).strip() if row[2] else "",
         })
     return questions
@@ -68,13 +54,15 @@ async def ask(client: httpx.AsyncClient, api_url: str, question: str, user_id: s
 
 async def collect(questions_path: Path, api_url: str, delay: float) -> list[dict]:
     questions = load_questions(questions_path)
-    print(f"Загружено {len(questions)} вопросов из {questions_path.name}")
-    print(f"API: {api_url}/v1/chat  |  Задержка: {delay}s\n")
+    categories = sorted({q["category"] for q in questions})
+    print(f"Загружено {len(questions)} вопросов")
+    print(f"Категории: {categories}")
+    print(f"API: {api_url}  |  Задержка: {delay}s\n")
 
     results = []
     async with httpx.AsyncClient() as client:
         for i, q in enumerate(questions, 1):
-            print(f"[{i:2d}/{len(questions)}] [{q['category']:10s}] {q['question'][:60]}...",
+            print(f"[{i:2d}/{len(questions)}] [{q['category']:12s}] {q['question'][:55]}...",
                   end=" ", flush=True)
 
             if delay > 0:
@@ -82,7 +70,6 @@ async def collect(questions_path: Path, api_url: str, delay: float) -> list[dict
 
             response = await ask(client, api_url, q["question"], q["query_id"])
 
-            # Конвертируем fragments в retrieved_context формат
             retrieved_context = [
                 {"text": f["text"], "source": f.get("source", ""), "score": f.get("score", 0)}
                 for f in response.get("fragments", [])
@@ -99,22 +86,17 @@ async def collect(questions_path: Path, api_url: str, delay: float) -> list[dict
                 "error": response.get("error"),
             }
             results.append(record)
-
-            status = "✓" if record["actual_answer"] and not record.get("error") else "✗"
-            print(status)
+            print("✓" if record["actual_answer"] and not record.get("error") else "✗")
 
     return results
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Сбор ответов от RAG-системы")
-    parser.add_argument("--questions", type=Path,
-                        default=DATA_DIR / "questions.xlsx")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--questions", type=Path, default=DATA_DIR / "questions.xlsx")
     parser.add_argument("--api-url", default="http://localhost")
-    parser.add_argument("--delay", type=float, default=2.0,
-                        help="Задержка между запросами (секунды)")
-    parser.add_argument("--output", type=Path,
-                        default=RESULTS_DIR / "raw_answers.json")
+    parser.add_argument("--delay", type=float, default=2.0)
+    parser.add_argument("--output", type=Path, default=RESULTS_DIR / "raw_answers.json")
     args = parser.parse_args()
 
     if not args.questions.exists():
@@ -122,7 +104,6 @@ def main():
         sys.exit(1)
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-
     results = asyncio.run(collect(args.questions, args.api_url, args.delay))
 
     successful = sum(1 for r in results if r["actual_answer"] and not r.get("error"))

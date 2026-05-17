@@ -102,19 +102,19 @@
     "description": "Стоимость обучения по специальностям и формам обучения.",
     "columns": {
       "code": "TEXT — код специальности",
-      "profile_spec_name": "TEXT — название специальности",
-      "education_form": "TEXT — форма обучения (очная, заочная, очно-заочная)",
+      "spec_name": "TEXT — название специальности",
+      "ed_form": "TEXT — форма обучения (очная, заочная, очно-заочная)",
       "price": "INTEGER — стоимость обучения в рублях (пример: 193000, 127000)"
     },
-    "name_columns": ["profile_spec_name"],
+    "name_columns": ["spec_name"],
     "rules": [
       "Весь текст в нижнем регистре.",
-      "Если пользователь не указал форму обучения — показывай ВСЕ формы, не фильтруй по education_form.",
+      "Если пользователь не указал форму обучения — показывай ВСЕ формы, не фильтруй по ed_form.",
       "Для 'самый дешёвый' — ORDER BY \"price\" ASC, для 'самый дорогой' — ORDER BY \"price\" DESC."
     ],
     "query_examples": [
-      "SELECT * FROM \"prices\" WHERE \"profile_spec_name\" LIKE '%прикладная информатика%' LIMIT 5;",
-      "SELECT * FROM \"prices\" WHERE \"profile_spec_name\" LIKE '%информатика%' AND \"education_form\" = 'очная' LIMIT 5;",
+      "SELECT * FROM \"prices\" WHERE \"spec_name\" LIKE '%прикладная информатика%' LIMIT 5;",
+      "SELECT * FROM \"prices\" WHERE \"spec_name\" LIKE '%информатика%' AND \"ed_form\" = 'очная' LIMIT 5;",
       "SELECT * FROM \"prices\" ORDER BY \"price\" ASC LIMIT 10;"
     ]
   },
